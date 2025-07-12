@@ -1163,9 +1163,26 @@ void setTheme() {
              bruceConfig.secColor = DEFAULT_SECCOLOR;
              bruceConfig.bgColor = TFT_BLACK;
              bruceConfig.setUiColor(DEFAULT_PRICOLOR);
+             bruceConfig.CustomTFT = false;
+             bruceConfig.theme.border = true;
+             bruceConfig.theme.label = true;
              bruceConfig.saveFile();
              fs = nullptr;
-         }                                     },
+         }},
+        {"CustomTFT",
+         [&]() {
+             bruceConfig.removeTheme();
+             bruceConfig.themePath = "";
+             bruceConfig.theme.fs = 0;
+             bruceConfig.secColor = getColorVariation(0xFFFF);
+             bruceConfig.bgColor = 0x0000; // Siyah
+             bruceConfig.setUiColor(0xFFFF); // Beyaz ana renk
+             bruceConfig.CustomTFT = true;
+             bruceConfig.theme.border = false;
+             bruceConfig.theme.label = false;
+             bruceConfig.saveFile();
+             fs = nullptr;
+         }},
         {"Main Menu", [&]() { fs = nullptr; }  }
     };
     if (setupSdCard()) {
