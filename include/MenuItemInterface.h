@@ -16,7 +16,9 @@ public:
 
     void draw(float scale = 1) {
         if (rotation != bruceConfig.rotation) resetCoordinates();
-        if (!getTheme()) {
+        if (bruceConfig.CustomTFT) {
+            drawCustomTFT(scale);
+        } else if (!getTheme()) {
             drawIcon(scale);
             drawArrows(scale);
             drawTitle(scale);
@@ -93,6 +95,13 @@ public:
         tft.drawCentreString(getName().substring(0, nchars), iconCenterX, titleY, 1);
     }
 
+    virtual void drawCustomTFT(float scale = 1) {
+        clearIconArea();
+        tft.fillRect(iconAreaX, iconAreaY, iconAreaW, iconAreaH, bruceConfig.bgColor);
+        tft.drawRect(iconAreaX + 10, iconAreaY + 10, iconAreaW - 20, iconAreaH - 20, bruceConfig.priColor);
+        tft.drawCentreString("CustomTFT", iconCenterX, iconCenterY, 1);
+    }
+
 protected:
     String _name = "";
     uint8_t rotation = ROTATION;
@@ -115,7 +124,8 @@ protected:
     MenuItemInterface(const String &name) : _name(name) {}
 
     void clearIconArea(void) {
-        tft.fillRect(iconAreaX, iconAreaY, iconAreaW, iconAreaH, bruceConfig.bgColor);
+        // Ekranın 320x144'lük kısmını, yukarıda 26px boşluk kalacak şekilde temizle
+        tft.fillRect(0, 26, 320, 144, bruceConfig.bgColor);
     }
     void clearImgArea(void) { tft.fillRect(7, 27, tftWidth - 14, tftHeight - 34, bruceConfig.bgColor); }
     void resetCoordinates(void) {
