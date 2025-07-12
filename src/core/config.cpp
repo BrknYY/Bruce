@@ -10,6 +10,7 @@ JsonDocument BruceConfig::toJson() const {
     setting["bgColor"] = String(bgColor, HEX);
     setting["themeFile"] = themePath;
     setting["themeOnSd"] = theme.fs;
+    setting["CustomTFT"] = CustomTFT;
 
     setting["rot"] = rotation;
     setting["dimmerSet"] = dimmerSet;
@@ -146,6 +147,12 @@ void BruceConfig::fromFile(bool checkFS) {
     } else {
         count++;
         log_e("Fail");
+    }
+
+    if (!setting["CustomTFT"].isNull()) {
+        CustomTFT = setting["CustomTFT"].as<bool>();
+    } else {
+        CustomTFT = false;
     }
 
     if (!setting["rot"].isNull()) {
@@ -416,6 +423,10 @@ void BruceConfig::fromFile(bool checkFS) {
     if (count > 0) saveFile();
 
     log_i("Using config from file");
+    if (CustomTFT) {
+        theme.border = false;
+        theme.label = false;
+    }
 }
 
 void BruceConfig::saveFile() {
