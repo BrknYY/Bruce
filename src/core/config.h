@@ -92,6 +92,7 @@ public:
     String wigleBasicToken = "";
     int devMode = 0;
     int colorInverted = 1;
+    bool CustomTFT = false;
 
     std::vector<String> disabledMenus = {};
 
